@@ -16,7 +16,7 @@ const allHands = {
 };
 
 const determinePlayableHands = (dice) => {
-  const playableHands = [];
+  const playableHands = {};
 
   // SCHOOL & 3/4KIND
   const valueCounts = {
@@ -33,34 +33,39 @@ const determinePlayableHands = (dice) => {
     valueCounts[currentDie.value]++;
   }
   if (valueCounts[1] >= 3) {
-    playableHands.push(allHands.ones);
-    playableHands.push(allHands.threeKind);
-    if (valueCounts[1] >= 4) playableHands.push(allHands.fourKind);
+    playableHands[allHands.ones] = valueCounts[1];
+    playableHands[allHands.threeKind] = valueCounts[1];
+    if (valueCounts[1] >= 4) playableHands[allHands.fourKind] = valueCounts[1];
   }
   if (valueCounts[2] >= 3) {
-    playableHands.push(allHands.twos);
-    playableHands.push(allHands.threeKind);
-    if (valueCounts[2] >= 4) playableHands.push(allHands.fourKind);
+    const sumOfTwos = valueCounts[2] * 2;
+    playableHands[allHands.twos] = sumOfTwos;
+    playableHands[allHands.threeKind] = sumOfTwos;
+    if (valueCounts[2] >= 4) playableHands[allHands.fourKind] = sumOfTwos;
   }
   if (valueCounts[3] >= 3) {
-    playableHands.push(allHands.threes);
-    playableHands.push(allHands.threeKind);
-    if (valueCounts[3] >= 4) playableHands.push(allHands.fourKind);
+    const sumOfThrees = valueCounts[3] * 3;
+    playableHands[allHands.threes] = sumOfThrees;
+    playableHands[allHands.threeKind] = sumOfThrees;
+    if (valueCounts[3] >= 4) playableHands[allHands.fourKind] = sumOfThrees;
   }
   if (valueCounts[4] >= 3) {
-    playableHands.push(allHands.fours);
-    playableHands.push(allHands.threeKind);
-    if (valueCounts[4] >= 4) playableHands.push(allHands.fourKind);
+    const sumOfFours = valueCounts[4] * 4;
+    playableHands[allHands.fours] = sumOfFours;
+    playableHands[allHands.threeKind] = sumOfFours;
+    if (valueCounts[4] >= 4) playableHands[allHands.fourKind] = sumOfFours;
   }
   if (valueCounts[5] >= 3) {
-    playableHands.push(allHands.fives);
-    playableHands.push(allHands.threeKind);
-    if (valueCounts[5] >= 4) playableHands.push(allHands.fourKind);
+    const sumOfFives = valueCounts[5] * 5;
+    playableHands[allHands.fives] = sumOfFives;
+    playableHands[allHands.threeKind] = sumOfFives;
+    if (valueCounts[5] >= 4) playableHands[allHands.fourKind] = sumOfFives;
   }
   if (valueCounts[6] >= 3) {
-    playableHands.push(allHands.sixes);
-    playableHands.push(allHands.threeKind);
-    if (valueCounts[6] >= 4) playableHands.push(allHands.fourKind);
+    const sumOfSixes = valueCounts[6] * 6;
+    playableHands[allHands.sixes] = sumOfSixes;
+    playableHands[allHands.threeKind] = sumOfSixes;
+    if (valueCounts[6] >= 4) playableHands[allHands.fourKind] = sumOfSixes;
   }
 
   // PAIRS
@@ -83,8 +88,8 @@ const determinePlayableHands = (dice) => {
   if (valueCounts[6] >= 2) {
     pairCount++;
   }
-  if (pairCount >= 1) playableHands.push(allHands.onePair);
-  if (pairCount >= 2) playableHands.push(allHands.twoPair);
+  if (pairCount >= 1) playableHands[allHands.onePair] = undefined;
+  if (pairCount >= 2) playableHands[allHands.twoPair] = undefined;
 
   // FULLHOUSE
   if (
@@ -101,7 +106,7 @@ const determinePlayableHands = (dice) => {
       valueCounts[5] === 3 ||
       valueCounts[6] === 3)
   ) {
-    playableHands.push(allHands.fullHouse);
+    playableHands[allHands.fullHouse] = undefined;
   }
 
   // FLUSH
@@ -112,7 +117,7 @@ const determinePlayableHands = (dice) => {
     valueCounts[2] + valueCounts[5] === 5 ||
     valueCounts[3] + valueCounts[4] === 5
   ) {
-    playableHands.push(allHands.flush);
+    playableHands[allHands.flush] = undefined;
   }
 
   // STRAIGHT
@@ -123,7 +128,7 @@ const determinePlayableHands = (dice) => {
     valueCounts[4] === 1 &&
     valueCounts[5] === 1
   ) {
-    playableHands.push(allHands.straight);
+    playableHands[allHands.straight] = undefined;
   }
   if (
     valueCounts[2] === 1 &&
@@ -132,7 +137,7 @@ const determinePlayableHands = (dice) => {
     valueCounts[5] === 1 &&
     valueCounts[6] === 1
   ) {
-    playableHands.push(allHands.straight);
+    playableHands[allHands.straight] = undefined;
   }
 
   // BASZDMEG
@@ -143,9 +148,10 @@ const determinePlayableHands = (dice) => {
     valueCounts[4] === 5 ||
     valueCounts[5] === 5
   ) {
-    playableHands.push(allHands.baszdmeg);
+    playableHands[allHands.baszdmeg] = undefined;
   }
 
+  console.log(playableHands);
   return playableHands;
 };
 

@@ -40,7 +40,6 @@ const App = () => {
   let [playableHands, setPlayableHands] = useState([]);
 
   const rollDice = () => {
-    // generate a new dice roll
     const diceRoll = getDiceRoll();
 
     let newDice = [...dice];
@@ -85,7 +84,7 @@ const App = () => {
       <button onClick={() => rollDice()}>Roll dice</button>
       <h3>Playable hands</h3>
       <div>
-        {playableHands.map((hand, index) => (
+        {Object.keys(playableHands).map((hand, index) => (
           <div key={index}>{hand}</div>
         ))}
       </div>
